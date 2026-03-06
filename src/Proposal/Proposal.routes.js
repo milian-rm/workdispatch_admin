@@ -2,7 +2,7 @@
 
 import { Router } from 'express';
 import { getAllProposals, deleteProposal } from './Proposal.controller.js';
-import { validateProposalId } from './proposal.validator.js';
+import { validateProposalId } from '../../middlewares/proposal.validator.js';
 
 const api = Router();
 
