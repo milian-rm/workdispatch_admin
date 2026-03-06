@@ -5,20 +5,13 @@ import WorkerPortfolio from './WorkerPortFolio.model.js';
 // ADMIN: Ver todos los Portafolios (incluyendo activos e inactivos)
 export const getAllPortfolios = async (req, res) => {
     try {
-        // El admin suele querer ver todo para auditar, 
-        // podemos añadir el populate para saber de quién es cada trabajo
-        const portfolios = await WorkerPortfolio.find()
-            .populate('workerId', 'name email'); // Ajusta según tus campos de User
-
-        return res.send({ 
-            success: true, 
-            portfolios 
-        });
+        const portfolios = await WorkerPortfolio.find(); // Solo trae los IDs
+        return res.send({ success: true, portfolios });
     } catch (err) {
-        return res.status(500).send({ 
-            success: false, 
+        return res.status(500).send({
+            success: false,
             message: 'Error al obtener todos los portafolios',
-            err: err.message 
+            err: err.message
         });
     }
 };
@@ -37,16 +30,16 @@ export const moderateRecord = async (req, res) => {
 
         await record.save();
 
-        return res.send({ 
-            success: true, 
-            message: `El registro ha sido marcado como ${record.status} por el Administrador`, 
-            record 
+        return res.send({
+            success: true,
+            message: `El registro ha sido marcado como ${record.status} por el Administrador`,
+            record
         });
     } catch (err) {
-        return res.status(500).send({ 
-            success: false, 
+        return res.status(500).send({
+            success: false,
             message: 'Error al moderar el registro',
-            err: err.message 
+            err: err.message
         });
     }
 };
