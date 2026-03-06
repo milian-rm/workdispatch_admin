@@ -2,11 +2,11 @@
 
 import { Router } from 'express';
 import { getAllPortfolios, moderateRecord } from './WorkerPortFolio.controller.js';
-import { validatePortfolioId } from './workerPortfolio.validator.js';
+import { validatePortfolioId } from '../../middlewares/workerPortFolio.validator.js';
 
 const api = Router();
 
-// Endpoint para ver todo el contenido de la plataforma
+// ver todo
 api.get('/', getAllPortfolios);
 
 // Endpoint para moderación (Desactivar/Activar)
