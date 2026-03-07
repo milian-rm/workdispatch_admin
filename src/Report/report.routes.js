@@ -4,7 +4,14 @@ import { resolveReportValidator } from '../../middlewares/report-validator.js';
 
 const router = Router();
 
-router.get('/', getAllReports);
-router.patch('/resolve/:id', resolveReportValidator, resolveReport);
+router.get(
+    '/', 
+    getAllReports
+);
+router.patch(
+    '/resolve/:id', 
+    resolveReportValidator, 
+    resolveReport
+);
 
 export default router;
