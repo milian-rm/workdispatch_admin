@@ -6,8 +6,7 @@ import ServiceRequest from './serviceRequest.model.js';
 export const getAllRequestsAdmin = async (req, res) => {
     try {
         const requests = await ServiceRequest.find()
-            .populate('clientId', 'firstName lastName Email')
-            .populate('categoryId', 'name');
+            
             
         res.status(200).json({
             success: true,
