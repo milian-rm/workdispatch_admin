@@ -51,12 +51,8 @@ export const createUser = async (req, res) => {
     try {
         const data = req.body;
 
-        if (req.file){
-            const extension = req.file.path.split('.').pop();
-            const filename = req.file.filename;
-            const relativePath = filename.substring(filename.indexOf('users/'));
-
-            data.profilePhoto = `${relativePath}.${extension}`;
+        if (req.file) {
+            data.profilePhoto = req.file.path;
         } else {
             data.profilePhoto = `users/default-profile.png`;
         }
@@ -92,28 +88,42 @@ export const updateUser = async (req, res) => {
         const { id } = req.params;
         const data = req.body;
 
-        if (req.file){
-            const currentUser = await User.findById(id);
-
-            if (currentUser && currentUser.profilePhoto) {
-                const photoPath = currentUser.profilePhoto;
-                const photoWithoutExt = photoPath.substring(0, photoPath.lastIndexOf('.'));
-            };
-            const publicId = `workDispatch/${photoWithoutExt}`;
-
-            try {
-                await cloudinary.uploader.destroy(publicId);
-            } catch (deleteError) {
-                console.error('Error al eliminar imagen anterior:', deleteError);
-            }
-        }
-
         const userExist = await User.findById(id);
         if (!userExist) {
             return res.status(404).json({
                 success: false,
                 message: 'Usuario no encontrado'
             });
+        }
+
+        if (req.file) {
+            if (
+                userExist.profilePhoto &&
+                userExist.profilePhoto.startsWith('http')
+            ) {
+                try {
+                    const photoPath = userExist.profilePhoto;
+
+                    const uploadIndex = photoPath.indexOf('/upload/');
+                    if (uploadIndex !== -1) {
+                        const afterUpload = photoPath.substring(uploadIndex + 8);
+                        const parts = afterUpload.split('/');
+
+                        if (parts[0].startsWith('v')) {
+                            parts.shift();
+                        }
+
+                        const fullPath = parts.join('/');
+                        const publicId = fullPath.substring(0, fullPath.lastIndexOf('.'));
+
+                        await cloudinary.uploader.destroy(publicId);
+                    }
+                } catch (deleteError) {
+                    console.error('Error al eliminar imagen anterior:', deleteError);
+                }
+            }
+
+            data.profilePhoto = req.file.path;
         }
 
         const userUpdated = await User.findByIdAndUpdate(
@@ -129,6 +139,7 @@ export const updateUser = async (req, res) => {
         });
 
     } catch (error) {
+        console.error('ERROR UPDATE USER:', error);
         res.status(500).json({
             success: false,
             message: 'Error al actualizar usuario',

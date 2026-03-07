@@ -23,10 +23,10 @@ const router = Router();
 router.get('/', getUsers);
 router.get('/:id', validateUserIdParam, getUserById);
 
-router.post('/', validateCreateUser, uploadUserProfileImage.single('profilePhoto'), createUser);
+router.post('/',uploadUserProfileImage.single('profilePhoto'), validateCreateUser,  createUser);
 router.post('/login', validateAdminLogin, login);
 
-router.put('/:id', validateUpdateUser, uploadUserProfileImage.single('profilePhoto'), updateUser);
+router.put('/:id', uploadUserProfileImage.single('profilePhoto'), validateUpdateUser,  updateUser);
 router.patch('/:id/status', validateChangeUserStatus, changeUserStatus);
 
 export default router;
