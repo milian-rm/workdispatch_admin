@@ -5,7 +5,7 @@ import WorkerPortfolio from './WorkerPortFolio.model.js';
 // ADMIN: Ver todos los Portafolios (incluyendo activos e inactivos)
 export const getAllPortfolios = async (req, res) => {
     try {
-        const portfolios = await WorkerPortfolio.find(); // Solo trae los IDs
+        const portfolios = await WorkerPortfolio.find();
         return res.send({ success: true, portfolios });
     } catch (err) {
         return res.status(500).send({
@@ -24,7 +24,6 @@ export const moderateRecord = async (req, res) => {
 
         if (!record) return res.status(404).send({ success: false, message: 'Registro no encontrado' });
 
-        // Cambiamos el estado (Toggle)
         record.status = record.status === 'ACTIVE' ? 'INACTIVE' : 'ACTIVE';
         record.deletedAt = record.status === 'INACTIVE' ? new Date() : null;
 
