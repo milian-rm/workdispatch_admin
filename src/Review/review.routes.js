@@ -9,7 +9,7 @@ router.get(
     getAllReviews
 ); 
 
-router.delete(
+router.patch(
     '/:id',
     deleteReviewValidator, 
     deleteOffensiveReview

@@ -23,7 +23,12 @@ export const getAllReviews = async (req, res) => {
 export const deleteOffensiveReview = async (req, res) => {
     try {
         const { id } = req.params;
-        const deletedReview = await Review.findByIdAndDelete(id);
+        
+        const deletedReview = await Review.findByIdAndUpdate(
+            id,
+            { Status: false },
+            { new: true }
+        );
 
         if (!deletedReview) {
             return res.status(404).json({ success: false, message: 'Review no encontrada' });
@@ -31,7 +36,7 @@ export const deleteOffensiveReview = async (req, res) => {
 
         res.status(200).json({
             success: true,
-            message: 'Review ofensiva eliminada del sistema',
+            message: 'Review ofensiva ocultada del sistema (Soft Delete)',
             review: deletedReview
         });
     } catch (error) {
