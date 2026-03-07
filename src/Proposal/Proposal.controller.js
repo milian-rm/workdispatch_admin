@@ -17,8 +17,8 @@ export const getAllProposals = async (req, res) => {
     }
 };
 
-// ADMIN: Eliminar/Desactivar propuesta inadecuadas
-export const deleteProposal = async (req, res) => {
+// ADMIN: Desactivar propuesta (Soft Delete)
+export const deactivateProposal = async (req, res) => {
     try {
         const { id } = req.params;
         const proposal = await Proposal.findByIdAndUpdate(id, 
@@ -28,8 +28,8 @@ export const deleteProposal = async (req, res) => {
         
         if (!proposal) return res.status(404).send({ success: false, message: 'Propuesta no encontrada' });
         
-        return res.send({ success: true, message: 'Propuesta eliminada por el administrador' });
+        return res.send({ success: true, message: 'Propuesta desactivada por el administrador', proposal });
     } catch (err) {
-        return res.status(500).send({ success: false, message: 'Error al eliminar la propuesta' });
+        return res.status(500).send({ success: false, message: 'Error al desactivar la propuesta' });
     }
 };

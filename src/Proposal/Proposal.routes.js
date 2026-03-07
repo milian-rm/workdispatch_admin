@@ -1,7 +1,7 @@
 'use strict';
 
 import { Router } from 'express';
-import { getAllProposals, deleteProposal } from './Proposal.controller.js';
+import { getAllProposals, deactivateProposal } from './Proposal.controller.js';
 import { validateProposalId } from '../../middlewares/proposal.validator.js';
 
 const api = Router();
@@ -10,6 +10,6 @@ const api = Router();
 api.get('/', getAllProposals);
 
 // eliminar propuestas sospechosas
-api.delete('/remove/:id', [validateProposalId], deleteProposal);
+api.patch('/:id', [validateProposalId], deactivateProposal);
 
 export default api;
