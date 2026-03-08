@@ -1,5 +1,6 @@
 import Verification from './verification.model.js';
 import User from '../Users/user.model.js';
+import { createAutomaticNotification } from '../helpers/notification.helper.js';
 
 export const getVerifications = async (req, res) => {
     try {
@@ -116,6 +117,16 @@ export const updateVerificationStatus = async (req, res) => {
         }
 
         await verification.save();
+
+        const mensaje = status === 'ACCEPTED' 
+            ? '¡Felicidades! Tu cuenta ha sido verificada. Ya puedes empezar a ofrecer tus servicios.' 
+            : `Tu solicitud de verificación ha sido rechazada. Razón: ${rejectionReason || 'No especificada'}.`;
+            
+        await createAutomaticNotification(
+            verification.userId, 
+            mensaje, 
+            `VERIFICATION_${status}`
+        );
 
         const verificationUpdated = await Verification.findById(id)
             .populate('userId', 'firstName lastName email role')
