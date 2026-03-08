@@ -14,17 +14,18 @@ import { errorHandler } from '../middlewares/handle-errors.js';
 
 // Importaciones de Rutas
 const BASE_URL = '/workDispatch/v1';
-<<<<<<< HEAD
 import reviewRoutes from '../src/Review/review.routes.js';
 import notificationRoutes from '../src/Notification/notification.routes.js';
 import reportRoutes from '../src/Report/report.routes.js';
-
-
-=======
+import userRoutes from '../src/Users/user.routes.js';
+import verificationRoutes from '../src/Verifications/verification.routes.js';
+import categoryRoutes from '../src/Categories/category.routes.js';
 import WorkerPortFolioRoutes from '../src/WorkerPortFolio/WorkerPortFolio.routes.js';
-import ProposalModel from '../src/Proposal/Proposal.routes.js';
+import ProposalRoutes from '../src/Proposal/Proposal.routes.js';
 import ServiceRoutes from '../src/Service/Service.routes.js';
->>>>>>> ft/DiegoLopez
+import SkillRoutes from '../src/Skill/skill.routes.js';
+import ServiceRequestRoutes from '../src/ServiceRequest/serviceRequest.routes.js';
+import UserSkillRoutes from '../src/UserSkill/userSkill.routes.js';
 
 const middleware = (app) => {
     app.use(helmet(helmetConfiguration));
@@ -36,20 +37,28 @@ const middleware = (app) => {
 }
 
 const routes = (app) => {
-<<<<<<< HEAD
-app.use(`${BASE_URL}/reviews`, reviewRoutes);
-app.use(`${BASE_URL}/notifications`, notificationRoutes);
-app.use(`${BASE_URL}/reports`, reportRoutes);
-=======
+    app.use(`${BASE_URL}/users`, userRoutes);
+    app.use(`${BASE_URL}/verifications`, verificationRoutes);
+    app.use(`${BASE_URL}/categories`, categoryRoutes);
+    
+    app.use(`${BASE_URL}/reviews`, reviewRoutes);
+    app.use(`${BASE_URL}/notifications`, notificationRoutes);
+    app.use(`${BASE_URL}/reports`, reportRoutes);
+
     app.use(`${BASE_URL}/PortFolio`, WorkerPortFolioRoutes);
-    app.use(`${BASE_URL}/Proposal`, ProposalModel);
+    app.use(`${BASE_URL}/Proposal`, ProposalRoutes);
     app.use(`${BASE_URL}/Service`, ServiceRoutes);
->>>>>>> ft/DiegoLopez
+
+    app.use(`${BASE_URL}/skill`, SkillRoutes);
+    app.use(`${BASE_URL}/serviceRequest`, ServiceRequestRoutes);
+    app.use(`${BASE_URL}/userSkill`, UserSkillRoutes);
+
+
 }
 
 const initServer = async () => {
     const app = express();
-    const PORT = process.env.PORT || 3001;
+    const PORT = process.env.PORT || 3002;
 
     try {
         await dbConnection();
