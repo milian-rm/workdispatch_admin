@@ -22,11 +22,17 @@ export const getAllRequestsAdmin = async (req, res) => {
     }
 };
 
-// ADMIN: Eliminar solicitudes inapropiadas 
+// ADMIN: Soft Delete de solicitudes inapropiadas
 export const deleteRequestAdmin = async (req, res) => {
     try {
         const { id } = req.params;
-        const deletedRequest = await ServiceRequest.findByIdAndDelete(id);
+        
+        // Cambiamos findByIdAndDelete por findByIdAndUpdate
+        const deletedRequest = await ServiceRequest.findByIdAndUpdate(
+            id, 
+            { isActive: false }, 
+            { new: true }
+        );
 
         if (!deletedRequest) {
             return res.status(404).json({ success: false, message: 'Solicitud no encontrada' });
@@ -34,12 +40,13 @@ export const deleteRequestAdmin = async (req, res) => {
 
         res.status(200).json({
             success: true,
-            message: 'Solicitud eliminada exitosamente por el administrador'
+            message: 'Solicitud desactivada (Soft Delete) por el administrador',
+            data: deletedRequest
         });
     } catch (error) {
         res.status(500).json({
             success: false,
-            message: 'Error al eliminar la solicitud',
+            message: 'Error al realizar el Soft Delete',
             error: error.message
         });
     }
