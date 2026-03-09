@@ -47,43 +47,18 @@ pnpm install express mongoose dotenv cors morgan helmet express-validator expres
 Crear un archivo `.env` en la raíz del proyecto con la siguiente configuración:
 
 ```env
-# Server
-NODE_ENV=development
-PORT=3002
+PORT=3001
 
 # MongoDB
-URI_MONGODB=mongodb://localhost:27017/workdispatch_admin
+URI_MONGODB=mongodb://localhost:27017/bank_system
 
-# JWT
-JWT_SECRET=tu_secret_key_muy_segura_aqui
-JWT_EXPIRE=7d
-JWT_REFRESH_EXPIRE=30d
 
-# Cloudinary (Storage de reportes y documentos)
-CLOUDINARY_CLOUD_NAME=tu_cloud_name
-CLOUDINARY_API_KEY=tu_api_key
-CLOUDINARY_API_SECRET=tu_api_secret
-CLOUDINARY_FOLDER=workdispatch/admin
+# Configuración JWT
+SECRET_KEY=EstaEsMiLlaveSecretaParaElRestaurante2026
 
-# CORS
-CORS_ORIGIN=http://localhost:3000
-
-# Servicios Externos
-WORKDISPATCH_USER_API=http://localhost:3001
-WORKDISPATCH_TASKS_API=http://localhost:3003
-
-# Email para notificaciones administrativas
-EMAIL_SERVICE=gmail
-EMAIL_USER=admin@workdispatch.com
-EMAIL_PASSWORD=tu_password_app
-
-# Rate Limiting
-RATE_LIMIT_WINDOW=15
-RATE_LIMIT_MAX_REQUESTS=100
-
-# Logging
-LOG_LEVEL=info
-LOG_FILE=./logs/admin.log
+# Configuración Email (Nodemailer)
+EMAIL_USER=systembank9@gmail.com
+EMAIL_PASS=lvev opou rqul bvua
 ```
 
 ---
