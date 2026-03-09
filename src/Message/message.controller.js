@@ -1,6 +1,6 @@
-import Message from '../message.model.js';
+import Message from './message.model.js';
 
-export const deleteMessage = async (req, res) => {
+export const changeMessageStatus = async (req, res) => {
     try {
 
         const { id } = req.params;
@@ -14,18 +14,23 @@ export const deleteMessage = async (req, res) => {
             });
         }
 
-        message.deletedAt = new Date();
+        // Cambiar estado automáticamente
+        message.status = !message.status;
+
         await message.save();
 
         res.status(200).json({
             success: true,
-            message: 'Mensaje eliminado'
+            message: message.status
+                ? 'Mensaje activado'
+                : 'Mensaje desactivado',
+            data: message
         });
 
     } catch (error) {
         res.status(500).json({
             success: false,
-            message: 'Error eliminando mensaje',
+            message: 'Error cambiando estado del mensaje',
             error: error.message
         });
     }

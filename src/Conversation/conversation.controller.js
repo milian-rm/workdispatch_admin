@@ -1,4 +1,4 @@
-import Conversation from '../conversation.model.js';
+import Conversation from './conversation.model.js';
 
 export const getAllConversations = async (req, res) => {
     try {
@@ -20,7 +20,7 @@ export const getAllConversations = async (req, res) => {
     }
 };
 
-export const deleteConversation = async (req, res) => {
+export const changeConversationStatus = async (req, res) => {
     try {
 
         const { id } = req.params;
@@ -34,18 +34,23 @@ export const deleteConversation = async (req, res) => {
             });
         }
 
-        conversation.deletedAt = new Date();
+        // Cambiar estado automáticamente
+        conversation.status = !conversation.status;
+
         await conversation.save();
 
         res.status(200).json({
             success: true,
-            message: 'Conversación eliminada'
+            message: conversation.status
+                ? 'Conversación activada'
+                : 'Conversación desactivada',
+            data: conversation
         });
 
     } catch (error) {
         res.status(500).json({
             success: false,
-            message: 'Error eliminando conversación',
+            message: 'Error cambiando estado de la conversación',
             error: error.message
         });
     }

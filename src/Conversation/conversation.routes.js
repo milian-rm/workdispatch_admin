@@ -1,8 +1,8 @@
 import { Router } from 'express';
 import {
     getAllConversations,
-    deleteConversation
-} from './conversation.admin.controller.js';
+    changeConversationStatus
+} from './conversation.controller.js';
 
 import {
     validateAdminDeleteConversation,
@@ -11,7 +11,8 @@ import {
 
 const router = Router();
 
-router.get('/', validateAdminGetConversationById,  getAllConversations);
-router.delete('/:id', validateAdminDeleteConversation, deleteConversation);
+router.get('/',  getAllConversations);
+router.get('/:id', validateAdminGetConversationById,  getAllConversations);
+router.patch('/:id/status', validateAdminDeleteConversation, changeConversationStatus);
 
 export default router;

@@ -118,8 +118,8 @@ export const updateVerificationStatus = async (req, res) => {
 
         await verification.save();
 
-        const mensaje = status === 'ACCEPTED' 
-            ? '¡Felicidades! Tu cuenta ha sido verificada. Ya puedes empezar a ofrecer tus servicios.' 
+        const mensaje = status === 'APPROVED' 
+            ? '¡Felicidades! Tu cuenta ha sido verificada.' 
             : `Tu solicitud de verificación ha sido rechazada. Razón: ${rejectionReason || 'No especificada'}.`;
             
         await createAutomaticNotification(
