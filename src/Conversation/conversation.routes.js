@@ -4,9 +4,14 @@ import {
     deleteConversation
 } from './conversation.admin.controller.js';
 
+import {
+    validateAdminDeleteConversation,
+    validateAdminGetConversationById
+} from '../../middlewares/conversation-validator.js';
+
 const router = Router();
 
-router.get('/', getAllConversations);
-router.delete('/:id', deleteConversation);
+router.get('/', validateAdminGetConversationById,  getAllConversations);
+router.delete('/:id', validateAdminDeleteConversation, deleteConversation);
 
 export default router;
