@@ -58,7 +58,7 @@ const routes = (app) => {
 
 const initServer = async () => {
     const app = express();
-    const PORT = process.env.PORT || 3002;
+    const PORT = process.env.PORT || 3001;
 
     try {
         await dbConnection();
